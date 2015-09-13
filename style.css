@@ -1,0 +1,68 @@
+* {
+  font-family: arial;
+  font-size: 1em;
+}
+
+#login {
+  min-width: 740px;
+}
+table, tr, td {
+  border: 1px solid green;
+  margin: auto;
+}
+
+table {
+  position: relative;
+}
+
+td {
+  width: 15px;
+  height: 15px;
+}
+
+fieldset {
+  font-size: 1em;
+}
+
+#gameboard {
+  padding-top: 1px;
+  /*border: 1px solid black;*/
+}
+
+#score-container {
+  display: table;
+  margin: auto;
+  font-size: 1.2em;
+}
+
+#game-controls {
+  /*border: 1px solid black;*/
+  position: absolute;
+}
+
+
+#start-game {
+  width: 120px;
+  height: 40px;
+  display: block;
+  margin-bottom: 10px;
+}
+
+select {
+  width: 120px;
+  display: block;
+  margin-bottom: 10px;
+}
+
+#score-display {
+  display: table-cell;
+  width: 40px;
+  text-align: right;
+}
+
+#logger {
+  /*border: 1px solid black;*/
+  position: absolute;
+  font-size: 1.8em;
+  margin-left: 20px;
+}

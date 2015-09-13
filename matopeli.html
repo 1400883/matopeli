@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Matopeli</title>
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="regstyle.css">
+  <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+  <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/sha256.js"></script>
+  <script src="https://cdn.socket.io/socket.io-1.3.6.js"></script>
+  <script src="register.js"></script>
+  <script src="worm.js"></script>
+</head>
+<body>
+<!-- <body onload="StartGame(6, 5)"> -->
+<div id="login">
+  <fieldset>
+    <legend><strong>Kirjaudu sisään</strong></legend>
+    Käyttäjänimi:<input type="text" name="username" id="login-username">
+    Salasana:<input type="password" name="password" id="login-password">
+    <input type="button" value="Kirjaudu sisään" id="login-button">
+    <p>Ei vielä omaa tunnusta? <a href="#" id="register-link">Rekisteröidy</a></p>
+  </fieldset>
+</div>
+<div id="gameboard" tabindex="0">...</div>
+<div id="chat">
+  <fieldset>
+    <legend><strong>Chat</strong></legend>
+    Kirjoita viesti: <input type="text" name="message_input" id="message_input" size="30" maxlength="120">
+  </fieldset>
+</div>
+
+<div id="register-dialog" title="Rekisteröi käyttäjätunnus">    
+  <table>
+    <tr>
+      <td></td><td id="register-username-validation" class="credential-validation">&nbsp;</td>
+    </tr>
+    <tr>
+      <td>Käyttäjänimi:</td>
+      <td><input type="text" name="register-username" id="register-username" size="30" maxlength="30"></td>
+    </tr>
+    <tr>
+      <td></td><td id="register-password-validation" class="credential-validation abc">&nbsp;</td>
+    </tr>
+    <tr>
+      <td>Salasana:</td>
+      <td><input type="password" name="register-password" id="register-password" size="30" maxlength="30"></td>
+    </tr>
+  </table>    
+</div>
+
+</body>
+</html>
