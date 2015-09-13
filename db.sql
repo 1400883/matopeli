@@ -10,7 +10,6 @@ CREATE TABLE user (
   PRIMARY KEY (id)
 ) ENGINE=InnoDB;
 
-INSERT INTO user (name, password) VALUES ("nimetön")
 CREATE TABLE topscore (
 	id INT AUTO_INCREMENT,
 	user INT NOT NULL,
