@@ -59,17 +59,26 @@
 				<section>
 					<section>
 						<h2>Arkkitehtuuriluonnos</h2>
-							<p>- Asiakkaiden selaimet saavat matopelisivustolle siirtyessään node.js:llä toteutetulta HTTP-palvelimelta vastauksena pelin toteuttavan www-sivun.</p>
-							<p>- Palvelin toteuttaa rekisteröitymis- ja kirjautumistoiminnot. Rekisteröityneiden käyttäjien tiedot tallentuvat palvelinpään tietokantaan.</p>
-							<p>- Palvelin ylläpitää pelinäkymän yhteydessä olevaa chat-toiminnallisuutta. Palvelin vastaanottaa asiakkailta chat-viestejä, tallentaa viestit tietokantaan ja jakaa uudet viestit kunkin asiakkaan selainnäkymään.</p>
-							<p>(jatkuu alla)
+						<img src="images/sovellusarkkitehtuuri.png" alt="">
+						<p>(jatkuu alla)</p>
+					</section>
+					<section>
+						<h2>Arkkitehtuuriluonnos</h2>
+							<ul>
+								<li>Asiakkaiden selaimet saavat matopelisivustolle siirtyessään node.js:llä toteutetulta HTTP-palvelimelta vastauksena pelin toteuttavan www-sivun.</li>
+								<li>Palvelin toteuttaa rekisteröitymis- ja kirjautumistoiminnot. Rekisteröityneiden käyttäjien tiedot tallentuvat palvelinpään tietokantaan.</li>
+								<li>Palvelin ylläpitää pelinäkymän yhteydessä olevaa chat-toiminnallisuutta. Palvelin vastaanottaa asiakkailta chat-viestejä, tallentaa viestit tietokantaan ja jakaa uudet viestit kunkin asiakkaan selainnäkymään.</li>
+							</ul>
+							<p>(jatkuu alla)</p>
 						
 					</section>
 					<section>
 						<h2>Arkkitehtuuriluonnos</h2>
-						<p>- Palvelin ylläpitää parhaiden pelitulosten listausta ja listaus on asiakkaiden tarkasteltavissa selainnäkymässä.</p>
-						<p>- Palvelimen käyttää MySQL-tietokantaa yllä kerrotun pysyväluontoisen datan tallennukseen.</p>
-						<p>- Palvelin toteuttaa kaksinpelitilan, jossa keskenään pelaavien asiakkaiden selaimet välittävät tietoa pelihahmojen toiminnoista palvelimelle, joka vastaavasti päivittää vastapelaajan pelihahmon tilan asiakkaalle ja huolehtii muutenkin kaksinpelin hallinnasta.</p>
+						<ul>
+							<li>Palvelin ylläpitää parhaiden pelitulosten listausta ja listaus on asiakkaiden tarkasteltavissa selainnäkymässä.</li>
+							<li>Palvelimen käyttää MySQL-tietokantaa yllä kerrotun pysyväluontoisen datan tallennukseen.</li>
+							<li>Palvelin toteuttaa kaksinpelitilan, jossa keskenään pelaavien asiakkaiden selaimet välittävät tietoa pelihahmojen toiminnoista palvelimelle, joka vastaavasti päivittää vastapelaajan pelihahmon tilan asiakkaalle ja huolehtii muutenkin kaksinpelin hallinnasta.</li>
+						</ul>
 					</section>
 				</section>
 
@@ -77,43 +86,61 @@
 					<section>
 						<h2>Toiminnalliset vaatimukset</h2>
 							<h3>Pelilogiikka</h3>
-							<p>- 5-blokkisena aloittava mato liikkuu pelilaudalla tarkoituksenaan syödä pelilaudalla oleva ruoka ja välttää itseensä törmääminen</p>
-							<p>- ruoan syöminen kasvattaa madon pituutta yhdellä</p>
-							<p>- ruoan nappaamisen jälkeen ruokapala ilmestyy uudelleen sattumanvaraisesti johonkin vapaaseen pelilaudan kohtaan</p>
+							<ul>
+								<li>5-blokkisena aloittava mato liikkuu pelilaudalla tarkoituksenaan syödä pelilaudalla oleva ruoka ja välttää itseensä törmääminen</li>
+								<li>ruoan syöminen kasvattaa madon pituutta yhdellä</li>
+								<li>ruoan nappaamisen jälkeen ruokapala ilmestyy uudelleen sattumanvaraisesti johonkin vapaaseen pelilaudan kohtaan</li>
+							</ul>
 					</section>
 					<section>
-							<p>- peli päättyy joko madon törmätessä itseensä tai pelilaudan täyttyä madolla</p>
-							<p>- mato voi läpäistä pelilaudan seinämän ja ilmestyy tällöin vastakkaiselta puolelta takaisin pelilaudalle</p>
-							<p>- pelissä on kolme nopeus- ja kolme pelilaudan kokoasetusta</p>
+					<ul>
+						<li>peli päättyy joko madon törmätessä itseensä tai pelilaudan täyttyä madolla</li>
+						<li>mato voi läpäistä pelilaudan seinämän ja ilmestyy tällöin vastakkaiselta puolelta takaisin pelilaudalle</li>
+						<li>pelissä on kolme nopeus- ja kolme pelilaudan kokoasetusta</li>
+					</ul>
+					</section>
+					<section>
+						<h3>Käyttöliittymähahmotelma</h3>
+						<img src="images/matopeliluonnos.png" height="600" alt="">
 					</section>
 					<section>
 						<h2>Muu toiminnallisuus</h2>
-							<p>- lyhyt high score -näyttö aina näkyvissä</p>
-							<p>- pitkä high score -näyttö vasta pelin päätyttyä </p>
-							<p>- top X -näytöissä näkyy vain valitun pelinopeuden ja -lautakoon parhaat tulokset</p>
-							<p>- chat-viesteihin skrollautuva näkymä, kerrallaan näkyvä maksimiviestimäärä päivittyy käyttöliittymän valmistuessa</p>
+						<ul>
+							<li>lyhyt high score -näyttö aina näkyvissä</li>
+							<li>pitkä high score -näyttö vasta pelin päätyttyä </li>
+							<li>top X -näytöissä näkyy vain valitun pelinopeuden ja -lautakoon parhaat tulokset</li>
+							<li>chat-viesteihin skrollautuva näkymä, kerrallaan näkyvä maksimiviestimäärä päivittyy käyttöliittymän valmistuessa</li>
+						</ul>
 					</section>
 					<section>
-							<p>- maksimi nimimerkkipituus 15 merkkiä</p>
-							<p>- pelin aikana peliasetuksia (nopeus, pelilaudan koko) ei voi muuttaa</p>
-							<p>- yksinpeli on pausetettavissa, moninpeli ei</p>
-							<p>- high score -listaukseen paitsi pistemäärä myös pelityyppi (=madon nopeus ja pelilaudan koko) sekä kulunut aika</p>
+						<ul>
+							<li>maksimi nimimerkkipituus 15 merkkiä</li>
+							<li>pelin aikana peliasetuksia (nopeus, pelilaudan koko) ei voi muuttaa</li>
+							<li>yksinpeli on pausetettavissa, moninpeli ei</li>
+							<li>high score -listaukseen paitsi pistemäärä myös pelityyppi (=madon nopeus ja pelilaudan koko) sekä kulunut aika</li>
+						</ul>
 					</section>
 					<section>
-							<p>- kulunut peliaika reaaliajassa rullaamaan ikkunaan</p>
-							<p>- rekisteröityminen/kirjautuminen pelin aikana ei katkaise käynnissä olevaa peliä</p>
-							<p>- moninpeli: maksimissaan kaksi pelaajaa</p>
-							<p>- moninpeli: peli päättyy jomman kumman pelaajan madon törmättyä toiseen matoon tai itseensä, törmännyt pelaaja häviää pelin</p>
+						<ul>
+							<li>kulunut peliaika reaaliajassa rullaamaan ikkunaan</li>
+							<li>rekisteröityminen/kirjautuminen pelin aikana ei katkaise käynnissä olevaa peliä</li>
+							<li>moninpeli: maksimissaan kaksi pelaajaa</li>
+							<li>moninpeli: peli päättyy jomman kumman pelaajan madon törmättyä toiseen matoon tai itseensä, törmännyt pelaaja häviää pelin</li>
+						</ul>
 					</section>
 					<section>
-							<p>- moninpeli: vastustajan valintamekanismi yksinkertaisella first in -periaatteella. Pelaajalla on käyttöliittymäpainike, jolla hän osoittaa halunsa kaksinpeliin. Kun kaksi sivustolla olevaa pelaajaa on painanut nappia ja molemmilla on valittuna samat peliasetukset (nopeus ja pelilaudan koko), palvelin yhdistää nämä kaksinpelisessioon</p>
+						<ul>
+							<li>moninpeli: vastustajan valintamekanismi yksinkertaisella first in -periaatteella. Pelaajalla on käyttöliittymäpainike, jolla hän osoittaa halunsa kaksinpeliin. Kun kaksi sivustolla olevaa pelaajaa on painanut nappia ja molemmilla on valittuna samat peliasetukset (nopeus ja pelilaudan koko), palvelin yhdistää nämä kaksinpelisessioon</li>
+						</ul>
 					</section>
 				</section>
 
 				<section>
 					<h2>Aikataulu</h2>
-						<p>- seuraa pääsääntöisesti kurssin viikkoaikataulua</p>
-						<p>- tiettyjä pelin perusominaisuuksia toteutetaan matkan varrella sitä mukaa kun ehditään</p>
+					<ul>
+						<li>seuraa pääsääntöisesti kurssin viikkoaikataulua</li>
+						<li>tiettyjä pelin perusominaisuuksia toteutetaan matkan varrella sitä mukaa kun ehditään</li>
+					</ul>
 				</section>
 
 			</div>
