@@ -17,10 +17,10 @@ var portNumber = 3000;
 
 // Luo yhteys MySQL-palvelimeen.
 var connection = mysql.createConnection({
-  host : "192.168.1.41",
-  user : "root",
+  host: "192.168.1.41",
+  user: "root",
   password: "test1234",
-  database: "matopeli"
+  database: "matopeli",
 });
 
 ///////////////////////////////////////////////////////////
@@ -53,21 +53,20 @@ function OnConnect(socket) {
   // Kuuntele asiakaspäässä tapahtuvaa yhteyden katkaisua sekä 
   // käyttäjänimen rekisteröinti-ilmoitusta
   socket.on("disconnect", OnDisconnect);
-  socket.on("OnIoRegister", OnIoRegister);
+  socket.on("IoOnRegister", IoOnRegister);
 }
 
-function OnIoRegister(userData) {
+function IoOnRegister(userData) {
   // Pura asiakkaalta tulleesta viestistä käyttäjänimi ja salasana-hash
   var parsedData = JSON.parse(userData);
-  var username = parsedData["username"];
-  var hash = parsedData["password"];
-  
+  var username = parsedData.username;
+  var hash = parsedData.password;
   // Tee MySQL-kysely, jolla haetaan tietokannasta käyttäjän syöttämää 
   // käyttäjänimeä.
   connection.query(
     "SELECT name FROM user WHERE name = ?",
     [username],
-    function(err, row, db) {
+    function(err, row) {
       if (row.length) {
         // Käyttäjänimi löytyi jo tietokannasta.
         // Palauta asiakkaan selaimelle tieto varatusta käyttäjänimestä.
@@ -83,7 +82,7 @@ function OnIoRegister(userData) {
             if (result.affectedRows) {
               // Käyttäjätiedot syötetty onnistuneesti tietokantaan.
               // Välitä asiakaalle tieto onnistuneesta rekisteröinnistä.
-              io.emit("OnRegisterSuccess", username);
+              io.emit("OnSuccess", username);
             }
           }
         );

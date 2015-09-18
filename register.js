@@ -1,39 +1,35 @@
-// Elementtiviittausmuuttujat
-var loginUsername;
-var loginPassword;
-var loginUsernameValidity;
-var loginPasswordValidity;
-var loginButton;
-var registerUsername;
-var registerPassword;
-var registerUsernameValidity;
-var registerPasswordValidity;
-var registerDialogButton;
-var registerDialogSuccess;
+function RegisterDialog() {
+  var _this = this;
+  this.dialogContext = this;
 
-var isLoginValidation;
-var minPasswordLength = 8;
+  // Socket.io callback, joka ottaa vastaan palvelimen lähettämän
+  // viestin, mikäli syötetty käyttäjänimi on jo tietokannassa.
+  socket.on("OnDuplicateUsername", function(username) { 
+    console.log("on", _this);
+    _this.OnDuplicateUsername(username);
+  });
+  // Socket.io callback, johon palvelin viestittää onnistuneesta 
+  // käyttäjätunnuksen rekisteröinnistä.
+  socket.on("OnSuccess", function(username) {
+    _this.OnSuccess(username);
+  });
 
-// Socket.io-asiakasolio
-var socket = io();
+  this.isLoginValidation;
+  this.minPasswordLength = 8;
 
-// onload-metodi suoritetaan sivun latauduttua asiakasselaimeen
-onload = function() {
   // Hae tarvittavat kenttien elementtiviitteet
-  loginUsername = document.getElementById("login-username");
-  loginPassword = document.getElementById("login-password");
-  loginUsernameValidity = document.getElementById("login-username-validation");
-  loginPasswordValidity = document.getElementById("login-password-validation");
-  loginButton = document.getElementById("login-button");
+  this.loginUsername = document.getElementById("login-username");
+  this.loginPassword = document.getElementById("login-password");
+  this.loginUsernameValidity = document.getElementById("login-username-validation");
+  this.loginPasswordValidity = document.getElementById("login-password-validation");
+  this.loginButton = document.getElementById("login-button");
 
-  registerUsername = document.getElementById("register-username");
-  registerPassword = document.getElementById("register-password");
-  registerUsernameValidity = document.getElementById("register-username-validation");
-  registerPasswordValidity = document.getElementById("register-password-validation");
-
-  var registerLink = document.getElementById("register-link");
-  registerLink.addEventListener("click", OnRegisterDialog);
-  registerDialog = document.getElementById("register-dialog");
+  this.registerUsername = document.getElementById("register-username");
+  this.registerPassword = document.getElementById("register-password");
+  this.registerUsernameValidity = document.getElementById("register-username-validation");
+  this.registerPasswordValidity = document.getElementById("register-password-validation");
+  // Alusta rekisteröinti-popupin asetukset
+  this.registerDialog = document.getElementById("register-dialog");
   $("#register-dialog").dialog({
     autoOpen: false,
     draggable: false,
@@ -42,97 +38,95 @@ onload = function() {
     buttons: [
       {
         text: "Rekisteröidy",
-        click: OnRegisterButton
+        click: function() {
+          _this.OnRegisterButton();
+        }
       },
     ],
     width: 450
   });
-
-  registerDialogSuccess = document.createElement("div");
-  registerDialogSuccess.setAttribute("id", "register-success-text");
+  
+  // Luo rekisteröinnin onnistumistekstin sisältävä div-elementti jQuery UI:n sisälle
+  this.registerDialogSuccess = document.createElement("div");
+  this.registerDialogSuccess.setAttribute("id", "register-success-text");
   document.getElementsByClassName("ui-dialog-buttonpane")[0].insertBefore(
-    registerDialogSuccess, 
+    this.registerDialogSuccess, 
     document.getElementsByClassName("ui-dialog-buttonset")[0]);
-  registerDialogButton = document.getElementsByClassName("ui-dialog-buttonset")[0].getElementsByTagName("button")[0];
-  setTimeout(CreateGame, 10);
+  this.registerDialogButton = document.getElementsByClassName("ui-dialog-buttonset")[0].getElementsByTagName("button")[0];
+  
+  var registerLink = document.getElementById("register-link");
+  registerLink.addEventListener("click", this.Show);
 }
 
-function OnRegisterButton() {
-  console.log("reg");
+RegisterDialog.prototype.OnRegisterButton = function() {
+  var _this = this;
   // Tyhjennä virheellisistä syötteistä ilmoittavat kentät
-  registerUsernameValidity.textContent = "";
-  registerPasswordValidity.textContent = "";
+  this.registerUsernameValidity.textContent = "";
+  this.registerPasswordValidity.textContent = "";
   // Rekistöintisyötteen - ei sisäänkirjautumisen - validointi
-  isLoginValidation = false;
+  this.isLoginValidation = false;
   // Poista kentät ja painike käytöstä käyttäjänimen ja salasanan validoinnin
   // sekä mahdollisen palvelinpäässä tapahtuvan tarkistuksen/lisäyksen ajan.
   // Kentät aktivoidaan validointivirheen tai palvelimen vastauksen tultua.
-  registerUsername.disabled = true;
-  registerPassword.disabled = true;
-  registerDialogButton.disabled = true;
+  this.registerUsername.disabled = true;
+  this.registerPassword.disabled = true;
+  this.registerDialogButton.disabled = true;
   // Jatka validointia hetken päästä, kun virhetekstikentät on ensin
   // tyhjennetty yllä. Lyhyen tauon tarkoitus on välittää käyttäjälle 
   // kokemus, että mahdollinen edellinen virheellinen syöte on kuitattu
   // ja järjestelmä suorittaa uuden syötetarkistuksen.
-  setTimeout(Validate, 100);
+  setTimeout(function() {
+   _this.Validate(); 
+  }, 100);
 }
 
 // Avaa Rekisteröidy-linkkiä klikattaessa 
 // käyttäjätunnuksen rekisteröinti-popup-ikkuna
-function OnRegisterDialog() {
+RegisterDialog.prototype.Show = function() {
   $("#register-dialog").dialog("open");
   // Näytä ikkunan HTML-sisältö.
   // registerDialog.style.visibility = "visible";
 }
 
-// Onnistuneen rekisteröinnin jälkeen Jatka-painikkeen
-// kutsuma metodi.
-function OnContinueToGame() {
-  // Sulje rekisteröinti-ikkuna.
-  $("#register-dialog").dialog("close");
+// Jos rekisteröinti
+RegisterDialog.prototype.OnDuplicateUsername = function(username) {
+  // Ilmoita asiakkaalle varatusta käyttäjänimestä.
+  this.registerUsernameValidity.textContent = "Käyttäjänimi \"" + username + "\" on varattu.";
+  // Palauta kentät ja painike
+  this.registerUsername.disabled = false;
+  this.registerPassword.disabled = false;
+  this.registerDialogButton.disabled = false;
 }
 
-// Socket.io:n palvelimeen kytkeytymis-callback
-socket.on("connect", function() {
-  console.log("Yhteys palvelimeen muodostettu");
-});
-
-// Socket.io callback, joka ottaa vastaan palvelimen lähettämän
-// viestin, mikäli syötetty käyttäjänimi on jo tietokannassa.
-socket.on("OnDuplicateUsername", function(username) {
-  // Ilmoita asiakkaalle varatusta käyttäjänimestä.
-  registerUsernameValidity.textContent = "Käyttäjänimi \"" + username + "\" on varattu."
-  // Palauta kentät ja painike
-  registerUsername.disabled = false;
-  registerPassword.disabled = false;
-  registerDialogButton.disabled = false;
-});
-
-// Socket.io callback, johon palvelin viestittää onnistuneesta 
-// käyttäjätunnuksen rekisteröinnistä.
-socket.on("OnRegisterSuccess", function(username) {
-  registerDialogSuccess.textContent = "Luotiin käyttäjä \"" + username + "\"";
+RegisterDialog.prototype.OnSuccess = function(username) {
+  var _this = this;
+  this.registerDialogSuccess.textContent = "Luotiin käyttäjä \"" + username + "\"";
   $("#register-dialog").dialog("option", "buttons", 
     [ 
       { 
         text: "Jatka", 
-        click: OnContinueToGame
+        click: function() {
+          // Sulje rekisteröinti-ikkuna.
+          $("#register-dialog").dialog("close");
+          // Palauta kentät vasta Sulje-painikkeen painalluksen jälkeen
+          _this.registerUsername.disabled = false;
+          _this.registerPassword.disabled = false;
+        }
       } 
     ]
   );
-  // Palauta kentät ja painike
-  registerUsername.disabled = false;
-  registerPassword.disabled = false;
-  registerDialogButton.disabled = false;
-});
+  // Palauta painike
+  this.registerDialogButton.disabled = false;
+}
+
 
 // Sisäänkirjaus-/rekisteröintisyötteen validointi
-function Validate() {
-  var usernameField = isLoginValidation ? loginUsername : registerUsername
-  var passwordField = isLoginValidation ? loginPassword : registerPassword
-  var usernameValidityField = isLoginValidation ? loginUsernameValidity : registerUsernameValidity
-  var passwordValidityField = isLoginValidation ? loginPasswordValidity : registerPasswordValidity
-  
+RegisterDialog.prototype.Validate = function() {
+  var usernameField = this.isLoginValidation ? this.loginUsername : this.registerUsername;
+  var passwordField = this.isLoginValidation ? this.loginPassword : this.registerPassword;
+  var usernameValidityField = this.isLoginValidation ? this.loginUsernameValidity : this.registerUsernameValidity;
+  var passwordValidityField = this.isLoginValidation ? this.loginPasswordValidity : this.registerPasswordValidity;
+  // console.log(this, this.isLoginValidation, usernameValidityField);
   var isInputValid = true;
   var errorMsg;
   // Tarkista käyttäjänimikenttä. Kenttä ei saa olla tyhjä.
@@ -142,7 +136,7 @@ function Validate() {
       throw "Anna käyttäjänimi";
     }
   }
-  catch(err) {
+  catch (err) {
     // Käyttäjänimi on tyhjä
     errorMsg = err;
     isInputValid = false;
@@ -157,11 +151,11 @@ function Validate() {
   if (isInputValid) {
     try {
       errorMsg = "";
-      if (passwordField.value.length < minPasswordLength) {
-        throw "Salasanan minimipituus on " + minPasswordLength + " merkkiä.";
+      if (passwordField.value.length < this.minPasswordLength) {
+        throw "Salasanan minimipituus on " + this.minPasswordLength + " merkkiä.";
       }
     }
-    catch(err) {
+    catch (err) {
       // Salasana on liian lyhyt
       errorMsg = err;
       isInputValid = false;
@@ -171,16 +165,14 @@ function Validate() {
       passwordValidityField.textContent = errorMsg;
     }
   }
-
-  if (isInputValid) {
-    
+  if (isInputValid) { 
     // Jos käyttäjänimi ja salasana ovat ok, muodosta salasanasta 64
     // merkkiä pitkä SHA256-salaus-hash, jossa muodossa salasana 
     // lähetetään palvelimelle tietokantaan tallennettavaksi,
     // mikäli syötetty käyttäjänimi on vapaana.
     var hash = CryptoJS.SHA256(passwordField.value).toString();
     // Lähetä käyttäjänimi ja enkryptattu salasana palvelimelle.
-    socket.emit("OnIoRegister", JSON.stringify({ username: usernameField.value, password: hash }));
+    socket.emit("IoOnRegister", JSON.stringify({ username: usernameField.value, password: hash }));
     // Tyhjennä kentät. Sivu jää näkyviin odottamaan mahdollista
     // varatusta käyttäjänimestä johtuvaa palvelimen virheilmoitusta. 
     // Tällöin käyttäjä voi syöttää uuden käyttäjänimen ja salasanan
@@ -192,7 +184,7 @@ function Validate() {
     // Validointi epäonnistui -> Palauta kentät ja painike
     usernameField.disabled = false;
     passwordField.disabled = false;
-    registerDialogButton.disabled = false;
+    this.registerDialogButton.disabled = false;
     // Tyhjennä salasanakenttä
     passwordField.value = "";
   }
