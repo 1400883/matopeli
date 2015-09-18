@@ -421,19 +421,8 @@ function RestoreBackground() {
 // PELILAUDAN ALUSTUSFUNKTIOT /////////////////////////////
 ///////////////////////////////////////////////////////////
 function InitGameboard() {
-  var gameboard = "<div id=\"score-container\">Pisteet:<div id=\"score-display\"></div></div>" + 
-    "<div id=\"game-controls\">" + 
-      "<input type=\"button\" id=\"start-game\" value=\"" + startGameButtonText["off"] + "\">" + 
-      "Pelilaudan koko:<select id=\"boardsize\">";
-  for (key in boardSizeOptions) {
-    gameboard += "<option value=\"" + key + "\"" + 
-      (key == "average" ? "selected=\"selected\"" : "") + ">" + boardSizeOptions[key] + "</option>";
-  }
-  gameboard += "</select>Madon nopeus:<select id=\"worm-speed\">";
-  for (key in speedOptions) {
-    gameboard += "<option value=\"" + key + "\"" + (key == "medium" ? "selected=\"selected\"" : "") + ">" + speedOptions[key] + "</option>";
-  }
-  gameboard += "</select></div>" + "<table id=\"gametable\">";
+  var gameboard = "<div id=\"score-container\">Pisteet:<div id=\"score-display\"></div></div>" +
+	"<table id=\"gametable\">";
   for (var iRow = 0; iRow < boardHeight; ++iRow) {
     gameboard += "<tr>";
     for (var iCell = 0; iCell < boardWidth; ++iCell) {
@@ -446,6 +435,18 @@ function InitGameboard() {
     gameboard += "</tr>";
   }
   gameboard += "</table>";
+  gameboard += "<div id=\"game-controls\">" + 
+      "<input type=\"button\" id=\"start-game\" value=\"" + startGameButtonText["off"] + "\">" + 
+      "<div class=\"dropdown\">Pelilaudan koko:<select id=\"boardsize\">";
+  for (key in boardSizeOptions) {
+    gameboard += "<option value=\"" + key + "\"" + 
+      (key == "average" ? "selected=\"selected\"" : "") + ">" + boardSizeOptions[key] + "</option>";
+  }
+  gameboard += "</select></div><div class=\"dropdown\">Madon nopeus:<select id=\"worm-speed\">";
+  for (key in speedOptions) {
+    gameboard += "<option value=\"" + key + "\"" + (key == "medium" ? "selected=\"selected\"" : "") + ">" + speedOptions[key] + "</option>";
+  }
+  gameboard += "</select></div></div>";
   if (DEBUGMODE)
     gameboard += "<span id=\"logger\"></span>"
   document.getElementById("gameboard").innerHTML = gameboard;

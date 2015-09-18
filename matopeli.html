@@ -4,8 +4,9 @@
   <meta charset="UTF-8">
   <title>Matopeli</title>
   <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="regstyle.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/regstyle.css">
+  <link href='https://fonts.googleapis.com/css?family=Titillium+Web:400,600,700' rel='stylesheet' type='text/css'>
   <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
   <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
   <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/sha256.js"></script>
@@ -16,20 +17,22 @@
 <body>
 <!-- <body onload="StartGame(6, 5)"> -->
 <div id="login">
-  <fieldset>
-    <legend><strong>Kirjaudu sisään</strong></legend>
-    Käyttäjänimi:<input type="text" name="username" id="login-username">
-    Salasana:<input type="password" name="password" id="login-password">
-    <input type="button" value="Kirjaudu sisään" id="login-button">
-    <p>Ei vielä omaa tunnusta? <a href="#" id="register-link">Rekisteröidy</a></p>
-  </fieldset>
+	<div class="inner">
+			<div class="loginForm">
+			Käyttäjänimi:<input type="text" name="username" id="login-username">
+			Salasana:<input type="password" name="password" id="login-password">
+			<input type="button" value="Kirjaudu" id="login-button">
+			</div>
+			<div class="reg">Ei vielä omaa tunnusta? <a href="#" id="register-link">Rekisteröidy</a></div>
+	</div>
 </div>
-<div id="gameboard" tabindex="0">...</div>
-<div id="chat">
-  <fieldset>
-    <legend><strong>Chat</strong></legend>
-    Kirjoita viesti: <input type="text" name="message_input" id="message_input" size="30" maxlength="120">
-  </fieldset>
+<div class="container">
+	<div class="logo"></div>
+	<div id="gameboard" tabindex="0">...</div>
+	<h3>Chat</h3>
+	<div id="chat">
+		Kirjoita viesti: <input type="text" name="message_input" id="message_input" size="30" maxlength="120">
+	</div>
 </div>
 
 <div id="register-dialog" title="Rekisteröi käyttäjätunnus">    
