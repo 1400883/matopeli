@@ -5,7 +5,6 @@ function RegisterDialog() {
   // Socket.io callback, joka ottaa vastaan palvelimen lähettämän
   // viestin, mikäli syötetty käyttäjänimi on jo tietokannassa.
   socket.on("OnDuplicateUsername", function(username) { 
-    console.log("on", _this);
     _this.OnDuplicateUsername(username);
   });
   // Socket.io callback, johon palvelin viestittää onnistuneesta 
@@ -49,6 +48,7 @@ function RegisterDialog() {
   // Luo rekisteröinnin onnistumistekstin sisältävä div-elementti jQuery UI:n sisälle
   this.registerDialogSuccess = document.createElement("div");
   this.registerDialogSuccess.setAttribute("id", "register-success-text");
+  this.registerDialogSuccess.innerHTML = "&nbsp;";
   document.getElementsByClassName("ui-dialog-buttonpane")[0].insertBefore(
     this.registerDialogSuccess, 
     document.getElementsByClassName("ui-dialog-buttonset")[0]);
@@ -61,9 +61,9 @@ function RegisterDialog() {
 RegisterDialog.prototype.OnRegisterButton = function() {
   var _this = this;
   // Tyhjennä virheellisistä syötteistä ilmoittavat kentät
-  this.registerUsernameValidity.textContent = "";
-  this.registerPasswordValidity.textContent = "";
-  // Rekistöintisyötteen - ei sisäänkirjautumisen - validointi
+  this.registerUsernameValidity.innerHTML = "&nbsp;";
+  this.registerPasswordValidity.innerHTML = "&nbsp;";
+  // Kyseessä on rekistöintisyötteen - ei sisäänkirjautumisen - validointi
   this.isLoginValidation = false;
   // Poista kentät ja painike käytöstä käyttäjänimen ja salasanan validoinnin
   // sekä mahdollisen palvelinpäässä tapahtuvan tarkistuksen/lisäyksen ajan.
@@ -131,7 +131,7 @@ RegisterDialog.prototype.Validate = function() {
   var errorMsg;
   // Tarkista käyttäjänimikenttä. Kenttä ei saa olla tyhjä.
   try {
-    errorMsg = "";
+    errorMsg = "&nbsp;";
     if (!usernameField.value.length) {
       throw "Anna käyttäjänimi";
     }
@@ -143,14 +143,14 @@ RegisterDialog.prototype.Validate = function() {
   }
   finally {
     // Näytä virheilmoitus.
-    usernameValidityField.textContent = errorMsg;
+    usernameValidityField.innerHTML = errorMsg;
   }
 
   // Jos käyttäjänimi on ok. tarkista salasanakenttä. 
   // Kentän minimimerkkimäärä on määritetty muuttujassa.
   if (isInputValid) {
     try {
-      errorMsg = "";
+      errorMsg = "&nbsp;";
       if (passwordField.value.length < this.minPasswordLength) {
         throw "Salasanan minimipituus on " + this.minPasswordLength + " merkkiä.";
       }
@@ -162,7 +162,7 @@ RegisterDialog.prototype.Validate = function() {
     }
     finally {
       // Näytä virheilmoitus
-      passwordValidityField.textContent = errorMsg;
+      passwordValidityField.innerHTML = errorMsg;
     }
   }
   if (isInputValid) { 

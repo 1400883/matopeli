@@ -17,7 +17,7 @@ var portNumber = 3000;
 
 // Luo yhteys MySQL-palvelimeen.
 var connection = mysql.createConnection({
-  host: "192.168.1.41",
+  host: "localhost",
   user: "root",
   password: "test1234",
   database: "matopeli",
@@ -53,10 +53,13 @@ function OnConnect(socket) {
   // Kuuntele asiakaspäässä tapahtuvaa yhteyden katkaisua sekä 
   // käyttäjänimen rekisteröinti-ilmoitusta
   socket.on("disconnect", OnDisconnect);
-  socket.on("IoOnRegister", IoOnRegister);
+  socket.on("IoOnRegister", function(userData) {
+    IoOnRegister(socket, userData);
+  });
+  socket.on("IoOnChatMessage", IoOnChatMessage);
 }
 
-function IoOnRegister(userData) {
+function IoOnRegister(socket, userData) {
   // Pura asiakkaalta tulleesta viestistä käyttäjänimi ja salasana-hash
   var parsedData = JSON.parse(userData);
   var username = parsedData.username;
@@ -70,7 +73,7 @@ function IoOnRegister(userData) {
       if (row.length) {
         // Käyttäjänimi löytyi jo tietokannasta.
         // Palauta asiakkaan selaimelle tieto varatusta käyttäjänimestä.
-        io.emit("OnDuplicateUsername", username);
+        socket.emit("OnDuplicateUsername", username);
       }
       else {
         // Käyttäjänimi on vapaana. Lisää käyttäjänimi ja enkryptattu
@@ -82,7 +85,7 @@ function IoOnRegister(userData) {
             if (result.affectedRows) {
               // Käyttäjätiedot syötetty onnistuneesti tietokantaan.
               // Välitä asiakaalle tieto onnistuneesta rekisteröinnistä.
-              io.emit("OnSuccess", username);
+              socket.emit("OnSuccess", username);
             }
           }
         );
@@ -91,7 +94,33 @@ function IoOnRegister(userData) {
   );
 }
 
-function OnDisconnect(par) {
+function IoOnChatMessage(msg) {
+  var message = JSON.parse(msg);
+  // var timestamp = (new Date).toLocaleString();
+  connection.query(
+    "INSERT INTO chat (msg, author) VALUES (?, ?)",
+    [message.text, message.author],
+    function(err, result, db) {
+      if (result.affectedRows) {
+        connection.query(
+          "SELECT time FROM chat WHERE id = " + result.insertId,
+          function(err, row) {
+            var timestamp = row[0].time;
+            io.emit("IoOnChatMessage",
+              JSON.stringify({ 
+                text: message.text,
+                author: message.author,
+                time: timestamp.toLocaleString()
+              })
+            );
+          }
+        );
+      }
+    }
+  );
+}
+
+function OnDisconnect() {
   console.log("Asiakas osoitteessa", GetClientAddressFromSocket(this), "katkaisi yhteyden.");
 }
 

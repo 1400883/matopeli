@@ -21,6 +21,7 @@ Game.prototype.Start = function(boardWidth, boardHeight) {
   this.board = document.getElementById("gameboard");
   // Luo rekisteröintidialogi
   this.registerDialog = new RegisterDialog();
+  this.chat = new Chat();
   // Luo pelilauta
   this.gameboard = new Gameboard(game, boardWidth, boardHeight);
   this.gameboard.Init(this.board, this.boardSizeOptions, this.speedOptions);

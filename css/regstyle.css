@@ -1,11 +1,15 @@
 
 #register-dialog {
   /*visibility: hidden;*/
+  background-color: #222;
+  color: #fff;
+  margin: 0;
 }
 
 #register-dialog .credential-validation {
   color: red;
   height: 20px;
+  font-weight: bold;
 }
 
 #register-dialog table, #register-dialog tr, #register-dialog td {
@@ -17,20 +21,30 @@
   width: 100%;
 }
 
-#register-dialog input {
-  margin: 0;
+#register-dialog input[type="text"], 
+#register-dialog input[type="password"] {
+  width: 287px;
 }
 
-#register-dialog td {
-  width: 0;
+button.ui-button {
+  width: 119px;
 }
 
 .ui-dialog {
   font-size: 1em;
+  background-color: #222;
 }
 
+.ui-dialog-buttonpane {
+  border: none;
+  background-color: #222;
+}
 .ui-dialog-buttonset {
   margin-right: 14px;
+}
+
+.ui-widget-content {
+  background: #222;
 }
 
 #register-success-text {

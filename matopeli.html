@@ -18,27 +18,56 @@
   <script src="gameboard.js"></script>
   <script src="worm.js"></script>
   <script src="food.js"></script>
+  <script src="chat.js"></script>
 </head>
 <body>
 <div id="login">
-	<div class="inner">
-			<div class="loginForm">
-			Käyttäjänimi:<input type="text" name="username" id="login-username">
-			Salasana:<input type="password" name="password" id="login-password">
-			<input type="button" value="Kirjaudu" id="login-button">
-			</div>
-			<div class="reg">Ei vielä omaa tunnusta? <a href="#" id="register-link">Rekisteröidy</a></div>
-	</div>
+  <div class="inner">
+    <div class="loginForm">
+      Käyttäjänimi:<input type="text" name="username" id="login-username">
+      Salasana:<input type="password" name="password" id="login-password">
+      <input type="button" value="Kirjaudu" id="login-button">
+    </div>
+    <div class="reg">Ei vielä omaa tunnusta? <a href="#" id="register-link">Rekisteröidy</a></div>
+  </div>
 </div>
-<div class="container">
-	<div class="logo"></div>
-	<div id="gameboard" tabindex="0">...</div>
-	<h3>Chat</h3>
-	<div id="chat">
-		Kirjoita viesti: <input type="text" name="message_input" id="message_input" size="30" maxlength="120">
-	</div>
+<div id="main-container">
+  <div id="logo"></div>
+  <div id="player-container" class="side-container">
+    Pelaajat
+    <div id="player-list" class="listing">
+    <table id="player-table">
+      <tr> <td>Pelaaja 1</td> </tr>
+      <tr> <td>Pelaaja 2</td> </tr>
+      <tr> <td>Pelaaja 3</td> </tr>
+      <tr> <td>Pelaaja 4</td> </tr>
+      <tr> <td>Pelaaja 5</td> </tr>
+      <tr> <td>Pelaaja 6</td> </tr>
+      <tr> <td>Pelaaja 7</td> </tr>
+      <tr> <td>Pelaaja 8</td> </tr>
+      <tr> <td>Pelaaja 9</td> </tr>
+      <tr> <td>Pelaaja 10</td> </tr>
+      <tr> <td>Pelaaja 11</td> </tr>
+      <tr> <td>Pelaaja 12</td> </tr>
+      <tr> <td>Pelaaja 13</td> </tr>
+      <!-- <tr> <td>Pelaaja 14</td> </tr> -->
+    </table>    
+    </div>
+    <input type="button" value="Haasta kaksinpeliin">
+  </div>
+  <div id="game-container">
+    <div id="gameboard" tabindex="0">...</div>
+  </div>
+  <div id="chat-container" class="side-container">
+    Chat-viestit
+    <div id="chat-list" class="listing">
+      <table id="chat-table">
+        <tbody></tbody>
+      </table>
+    </div>
+    <input type="text" name="message-input" id="message-input" placeholder="Kirjoita viesti" size="30" maxlength="120">
+  </div>
 </div>
-
 <div id="register-dialog" title="Rekisteröi käyttäjätunnus">    
   <table>
     <tr>
@@ -55,7 +84,7 @@
       <td>Salasana:</td>
       <td><input type="password" name="register-password" id="register-password" size="30" maxlength="30"></td>
     </tr>
-  </table>    
+  </table>
 </div>
 
 </body>
