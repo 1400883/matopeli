@@ -15,7 +15,7 @@ function Worm(game) {
   };
   this.movesPerSecond = 3;
   this.hasMovedSinceLastKey = false;
-}
+};
 
 ///////////////////////////////////////////////////////////
 // MADON ALUSTUSFUNKTIO ///////////////////////////////////
@@ -33,7 +33,7 @@ Worm.prototype.Init = function() {
     nextPos = this.game.gameboard.getNextPos[this.dir](nextPos);
     this.pos.unshift(2 * wormPart - nextPos);
   }
-}
+};
 
 ///////////////////////////////////////////////////////////
 // MADON SUUNNANMUUTOSFUNKTIOT ////////////////////////////
@@ -49,15 +49,15 @@ Worm.prototype.ChangeDirection = function(pressedKey) {
     : this.dir != "u" ? "d" : this.dir; // <-- event.keyCode == this.game.keyboardControl.keyCode.down
   
   return this.dir != previousDir; // Palauta tieto, muuttuiko kulkusuunta
-}
+};
 
 Worm.prototype.IsValidDirectionChange = function(input, keycodes) {
   var wormDir = this.game.worm.dir;
-  return  (input == keycodes.left && wormDir != "l" && wormDir != "r")
-      ||  (input == keycodes.right && wormDir != "l" && wormDir != "r")
-      ||  (input == keycodes.up && wormDir != "u" && wormDir != "d")
-      ||  (input == keycodes.down && wormDir != "u" && wormDir != "d");
-}
+  return (input == keycodes.left && wormDir != "l" && wormDir != "r")
+      || (input == keycodes.right && wormDir != "l" && wormDir != "r")
+      || (input == keycodes.up && wormDir != "u" && wormDir != "d")
+      || (input == keycodes.down && wormDir != "u" && wormDir != "d");
+};
 
 ///////////////////////////////////////////////////////////
 // MADON PIIRTO- JA TAUSTAN PYYHKIMISFUNKTIOT /////////////
@@ -70,8 +70,8 @@ Worm.prototype.Draw = function() {
   for (var i = this.pos.length - 4; i >= 0; --i) {
     document.getElementById(this.pos[i]).style.backgroundColor = this.color.body;
   }
-}
+};
 
 Worm.prototype.RestoreBackground = function() {
   document.getElementById(this.pos[0]).style.backgroundColor = "";
-}
+};

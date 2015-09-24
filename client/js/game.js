@@ -9,41 +9,43 @@ function Game() {
   this.boardSizeDim = { large: 20, average: 14, small: 8 };
   this.speedOptions = { high: "nopea", medium: "normaali", slow: "hidas"};
   this.speedLevel = { high: 10, medium: 6, slow: 3 };
-}
+};
 
 ///////////////////////////////////////////////////////////
 // PELIN ALUSTUSFUNKTIO ///////////////////////////////////
 ///////////////////////////////////////////////////////////
 Game.prototype.Start = function(boardWidth, boardHeight) {
-  console.log("startGame");
   // Elementtiviitteet
-  this.login = document.getElementById("login");
   this.board = document.getElementById("gameboard");
-  // Luo rekisteröintidialogi
+
+  // Sisäänkirjaus
+  this.login = new Login();
+  // Rekisteröintidialogi
   this.registerDialog = new RegisterDialog();
-  this.chat = new Chat();
-  // Luo pelilauta
+  // Chat
+  this.chat = new Chat(this);
+  // Pelilauta
   this.gameboard = new Gameboard(game, boardWidth, boardHeight);
   this.gameboard.Init(this.board, this.boardSizeOptions, this.speedOptions);
-  // Luo näppäinmanageri
+  // Näppäinmanageri
   this.keyboardControl = new KeyboardControl(this);
   this.keyboardControl.Init();
-  // Luo mato
+  // Mato
   this.worm = new Worm(this);
-  // Luo ruoka
+  // Ruoka
   this.food = new Food(this);
-
+  
   // Aseta mato aloitussijaintiin ja -suuntaan
   this.worm.Init();
-}
+};
 
 ///////////////////////////////////////////////////////////
 // PELIN TILAN PÄIVITYSFUNKTIO ////////////////////////////
 ///////////////////////////////////////////////////////////
-Game.prototype.Update = function(game) {
+Game.prototype.Update = function() {
   var _this = this;
+  
   // Päivitetään madon sijainti
-  /////////////////////////////
   var nextPos = this.gameboard.getNextPos[this.worm.dir](this.worm.pos[this.worm.pos.length - 1]);
 
   // Madon törmäystarkistus
@@ -107,7 +109,7 @@ Game.prototype.Update = function(game) {
     this.StopInterval();
     setTimeout(function() { _this.GameOver(); }, 50);
   }
-}
+};
 
 ///////////////////////////////////////////////////////////
 // PELIN ETENEMIS- JA PYSÄYTYSFUNKTIOT ////////////////////
@@ -116,15 +118,15 @@ Game.prototype.StartInterval = function() {
   var _this = this;
   this.setIntervalId = setInterval(function() {
     // Käynnistä Update()-funktion ajastettu suoritus
-    _this.Update(_this);
+    _this.Update();
   }, 
   Math.round(1000 / this.worm.movesPerSecond));
-}
+};
 
 Game.prototype.StopInterval = function() {
   // Pysäytä Update()-funktion ajastettu suoritus
   clearInterval(this.setIntervalId);
-}
+};
 
 ///////////////////////////////////////////////////////////
 // PELIN PÄÄTTYMISFUNKTIO /////////////////////////////////
@@ -140,7 +142,7 @@ Game.prototype.GameOver = function() {
   }
   // Aseta pelin aloituspainikkeen teksti alkuarvoonsa.
   this.gameboard.startButton.value = this.gameboard.startButtonText.off;
-}
+};
 
 /*
 Pelilaudan visualisointia auttamaan:

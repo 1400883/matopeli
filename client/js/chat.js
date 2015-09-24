@@ -1,5 +1,6 @@
-function Chat() {
-  _this = this;
+function Chat(game) {
+  var _this = this;
+  this.game = game;
   this.keyCode = { enter: 13 };
 
   this.chatTable = document.getElementById("chat-table");
@@ -8,18 +9,18 @@ function Chat() {
   this.messageInput.addEventListener("keydown", function(event) {
     _this.OnKeyDown(event);
   });
-  socket.on("IoOnChatMessage", function(msg) { _this.IoOnChatMessage(msg) });
-}
+  socket.on("IoOnChatMessage", function(msg) { _this.IoOnChatMessage(msg); });
+};
 
 Chat.prototype.OnKeyDown = function(event) {
   var messageText = this.messageInput.value;
   if (event.keyCode == this.keyCode.enter && messageText != "") {
-    var message = { text: messageText, author: "Kirjoittaja" };
+    var message = { text: messageText, author: this.game.login.username != null ? this.game.login.username : "Anonyymi" };
     // Tyhjennä viestikenttä
     this.messageInput.value = "";
     socket.emit("IoOnChatMessage", JSON.stringify(message));
   }
-}
+};
 
 Chat.prototype.IoOnChatMessage = function(msg) {
   var message = JSON.parse(msg);
@@ -29,7 +30,7 @@ Chat.prototype.IoOnChatMessage = function(msg) {
   // pohjaan niin, että uudet viestit jäävät näkyviin.
   var entireChatAreaHeight = this.chatTable.scrollHeight;
   var visibleChatAreaHeight = parseInt(getComputedStyle(this.chatTable, null).height);
-  var scrollPos = this.chatTable.scrollTop
+  var scrollPos = this.chatTable.scrollTop;
   var wasScrolledToBottom = scrollPos == entireChatAreaHeight - visibleChatAreaHeight;
   // Lisää uusi viesti chat-ikkunaan
   this.chatTable.innerHTML = this.chatTable.innerHTML.replace(
@@ -40,4 +41,4 @@ Chat.prototype.IoOnChatMessage = function(msg) {
     entireChatAreaHeight = this.chatTable.scrollHeight;
     this.chatTable.scrollTop = entireChatAreaHeight;
   }
-}
+};

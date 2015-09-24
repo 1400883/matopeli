@@ -2,7 +2,7 @@ function KeyboardControl(game) {
   this.game = game;
   this.keyCode = { left: 37, up: 38, right: 39, down: 40 };
   this.bufferedKeyCode = 0;
-}
+};
 
 ///////////////////////////////////////////////////////////
 // NÄPPÄIN-MANAGERIN ALUSTUSFUNKTIO ///////////////////////
@@ -13,7 +13,7 @@ KeyboardControl.prototype.Init = function() {
   this.game.board.addEventListener("keydown", function(event) {
     _this.OnKeyDown(event);
   });
-}
+};
 
 ///////////////////////////////////////////////////////////
 // NÄPPÄINPUSKURIN KÄSITTELYFUNKTIO ///////////////////////
@@ -40,8 +40,7 @@ KeyboardControl.prototype.ProcessBuffer = function() {
     // Matoa on siirretty, merkitään viimeisin siirtokomento 
     // käsitellyksi. Puskuri on tässä vaiheessa varmasti tyhjä 
     this.game.worm.hasMovedSinceLastKey = true;
-}
-
+};
 
 ///////////////////////////////////////////////////////////
 // NÄPPÄINPAINALLUSTEN REKISTERÖINTIFUNKTIO ///////////////
@@ -82,4 +81,4 @@ KeyboardControl.prototype.OnKeyDown = function(event) {
       }
     }
   }
-}
+};

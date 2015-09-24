@@ -41,13 +41,22 @@ input[type='text'], input[type="password"] {
 	padding: 3px 5px;
 }
 
+#logged-username {
+	margin: 0 20px;
+	font-weight: bold;
+	font-size: 1.2em;
+	color: #11bb11;
+}
+
 #login {
 	width: 100%;
+	min-width: 962px;
 	float: left;
 	clear: both;
+	margin: auto;
 	margin-bottom: 30px;
 	padding: 15px 0;
-	background-color: #161616;
+	/*background-color: #161616;*/
 	background-color: rgba(0, 0, 0, 0.3);
 	font-size: 0.8em;
 }
@@ -64,19 +73,25 @@ select {
 	margin: 0 auto;
 }
 
-#login .loginForm {
+#logoff-form {
+	display: none;
 	float: left;
 }
 
-#login .loginForm input {
+#login-form {
+	display: none; /* Oletusarvo, säädetään javascriptilla dynaamisesti */
+	float: left;
+}
+
+#login-form input {
 	margin-left: 5px;
 }
 
-#login .loginForm input:nth-child(1) {
+#login-form input:nth-child(1) {
 	margin-right: 20px;
 }
 
-#login-button {
+#login-button, #logoff-button {
 	padding: 2px 15px;
 	background-color: #E69C1B;
 	font-weight: bold;
@@ -92,11 +107,16 @@ select {
 	-webkit-border-radius: 50px;
 }
 
-#login-button:hover {
+#logoff-button {
+	padding-top: 0;
+}
+
+#login-button:hover, #logoff-button:hover {
 	background-color: #99B12D;
 }
 
-#login .reg{
+#login-reg {
+	display: none; /* Oletusarvo, säädetään javascriptilla dynaamisesti */
 	float: right;
 }
 
@@ -170,8 +190,9 @@ select {
 	width: 300px;
 	padding: 0;
 	margin: 0;
+	margin-top: 1px;
 	height: 29px;
-	display: table;
+	/*display: table;*/
 	line-height: 0px;
 	vertical-align: text-top;
 	/*border: 2px solid white;*/

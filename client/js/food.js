@@ -3,7 +3,7 @@ function Food(game) {
   this.game = game;
   this.pos;
   this.color = "orange";
-}
+};
 
 ///////////////////////////////////////////////////////////
 // RUOAN PIIRTO- JA SIJAINTIFUNKTIOT //////////////////////
@@ -16,7 +16,7 @@ Food.prototype.Draw = function() {
   else
     return false;
   return true;
-}
+};
 
 Food.prototype.GetNewPos = function() {
   // Ota kopio kaikki id:t sisältävästä taulukosta
@@ -34,8 +34,8 @@ Food.prototype.GetNewPos = function() {
   return foodIdList.length
     ? foodIdList[Math.round(Math.random() * (foodIdList.length - 1))]
     : undefined; // Mato täyttää jo kentän!
-}
+};
 
 Food.prototype.SortHighToLow = function(a, b) {
   return b - a;
-}
+};

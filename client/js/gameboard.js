@@ -10,7 +10,7 @@ function Gameboard(game, width, height) {
     u: function(nextPos) { return _this.GetUp(nextPos); }, 
     d: function(nextPos) { return _this.GetDown(nextPos); },
   };
-}
+};
 
 ///////////////////////////////////////////////////////////
 // PELILAUDAN ALUSTUSFUNKTIO //////////////////////////////
@@ -23,10 +23,7 @@ Gameboard.prototype.Init = function(boardElement, sizeOptions, speedOptions) {
   for (var iRow = 0; iRow < this.height; ++iRow) {
     gameboard += "<tr>";
     for (var iCell = 0; iCell < this.width; ++iCell) {
-      gameboard +=  "<td id=\"" + (iRow * this.width + iCell) + 
-                    // "\" title=\"" + (iRow * this.width + iCell) +
-                    "\">" +
-                    "</td>";
+      gameboard +=  "<td id=\"" + (iRow * this.width + iCell) + "\"></td>";
       this.idList.push(iRow * this.width + iCell);
     }
     gameboard += "</tr>";
@@ -63,10 +60,6 @@ Gameboard.prototype.Init = function(boardElement, sizeOptions, speedOptions) {
     _this.OnStartButtonClick();
   });
 
-  // Sijoita pelinohjauspainikkeet pelilaudan vasemmalle puolelle.
-  // this.gameControls = document.getElementById("game-controls");
-  // this.PositionGameControls();
-
   // Kehitystyötä varten:
   // - Tulostetaan hiiren kursorin alla olevan solun id-tunnus
   //   pelikentän viereen. Alkuperäisessä videossa solujen 
@@ -85,13 +78,7 @@ Gameboard.prototype.Init = function(boardElement, sizeOptions, speedOptions) {
       td.addEventListener("mouseleave", function(event) { _this.OnMouseLeave(event); });
     }
   }
-  /*
-  // Kuuntele selainikkunan kokomuutoksia
-  window.addEventListener("resize", function() {
-    _this.OnResize();
-  });
-*/
-}
+};
 
 ///////////////////////////////////////////////////////////
 // PELILAUDAN TYHJENNUSFUNKTIO ////////////////////////////
@@ -102,37 +89,7 @@ Gameboard.prototype.Reset = function() {
   }
   this.game.score = 0;
   this.scoreDisplay.textContent = this.game.score;
-}
-
-///////////////////////////////////////////////////////////
-// PELILAUDAN YMPÄRILLÄ OLEVIEN KONTROLLIEN SIJAINTIPÄIVITYSFUNKTIO
-///////////////////////////////////////////////////////////
-/*
-Gameboard.prototype.PositionGameControls = function() {
-  // document.getElementById("start-game")
-
-  var visibleWindowWidth = window.innerWidth;
-  var gametableWidth = parseFloat(getComputedStyle(this.gametable, null).width); 
-  var gameControlsWidth = parseInt(getComputedStyle(this.gameControls, null).width);
-  this.gameControls.style.left = Math.round(visibleWindowWidth / 2 - gametableWidth / 2 - gameControlsWidth - 10) + "px";
-
-  if (DEBUGMODE) {
-    // Haetaan heti pelilaudan oikealta puolelta sopiva paikka, 
-    // johon InitGameboard()-funktiossa HTML-dokumenttiin luotava
-    // span#logger-elementti asetellaan
-    var gameboardStyle = getComputedStyle(this.game.board, null);
-    var tableStyle = getComputedStyle(this.gametable, null);
-    var x = (parseInt(gameboardStyle.width) + parseInt(tableStyle.width)) / 2;
-    var y = parseInt(parseInt(gameboardStyle.height) / 2 + 
-      parseInt(getComputedStyle(this.game.login, null).height));
-    logger.style.left = x + "px";
-    logger.style.top = y + "px";
-    console.log(
-      logger.style.left, 
-      logger.style.top);
-  }
-}
-*/
+};
 
 ///////////////////////////////////////////////////////////
 // PELIN ALOITUSPAINIKKEEN CALLBACK ///////////////////////
@@ -169,13 +126,13 @@ Gameboard.prototype.OnStartButtonClick = function() {
   this.startButton.value = this.game.isPaused 
     ? this.startButtonText.paused
     : this.startButtonText.on;
-}
+};
 
 Gameboard.prototype.GetMiddlePoint = function() {
   // Palauta pelilaudan keskipisteen solu-id
   return this.width * ((this.height - 1) - 
     Math.floor(this.height / 2)) + Math.round(this.width / 2 - 1);
-}
+};
 
 ///////////////////////////////////////////////////////////
 // PELILAUDAN SEURAAVAN RUUDUN ID:N PALAUTTAVAT FUNKTIOT //
@@ -196,25 +153,25 @@ Gameboard.prototype.GetLeft = function(currentPos) {
   return currentPos % this.width // Onko mato parhaillaan vasemmasta laidasta irti?
     ? currentPos - 1 // Kyllä -> voi siirtää vasemmalle
     : this.width + currentPos - 1; // Ei, laitetaan ilmestymään sisään oikeasta laidasta
-}
+};
 
 Gameboard.prototype.GetRight = function(currentPos) {
   return (currentPos + 1) % this.width // Onko mato parhaillaan oikeasta laidasta irti?
     ? currentPos + 1 // Kyllä, voi siirtää oikealle
     : currentPos - this.width + 1; // Ei, laitetaan ilmestymään sisään vasemmasta laidasta
-}
+};
 
 Gameboard.prototype.GetUp = function(currentPos) {
   return currentPos >= this.width // Onko -- ylälaidasta irti?
     ? currentPos - this.width // Kyllä -> siirto ylös
     : currentPos + this.width * (this.height - 1); // Ei -> ilmestyy sisään alhaalta
-}
+};
 
 Gameboard.prototype.GetDown = function(currentPos) {
   return currentPos < this.width * (this.height - 1) // Onko -- alalaidasta irti?
     ? currentPos + this.width // Kyllä -> siirto alas
     : currentPos + this.width * (1 - this.height); // Ei -> ilmestyy sisään ylhäältä
-}
+};
 
 ///////////////////////////////////////////////////////////
 // DEBUGGAUS CALLBACK-FUNKTIOT ////////////////////////////
@@ -230,20 +187,11 @@ Gameboard.prototype.OnMouseOver = function(event) {
     // Vaihda taustaväri "valitun" solun havainnollistamiseksi
     id.style.backgroundColor = "red";
   }
-}
+};
 
 Gameboard.prototype.OnMouseLeave = function(event) {
   // Poista id lokielementistä
   this.logger.textContent = "";
   // Palauta alkuperäinen taustaväri soluun.
   document.getElementById(event.target.id).style.backgroundColor = this.idStyle;
-}
-
-///////////////////////////////////////////////////////////
-// SELAINIKKUNAN KOKOMUUTOS-CALLBACK //////////////////////
-///////////////////////////////////////////////////////////
-/*
-Gameboard.prototype.OnResize = function() {
-  this.PositionGameControls();
-}
-*/
+};
