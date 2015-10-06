@@ -1,12 +1,14 @@
 var authentication;
 var connection;
-
+var loginStateInterval;
+var missedLoginStatePeriod = 1500;
 function Login(authenticationReference, sqlConnection) {
   connection = sqlConnection;
   authentication = authenticationReference;
   this.UpdateClientLoginState = UpdateClientLoginState;
   this.IoOnLoginRequest = IoOnLoginRequest;
   this.IoOnLogoffRequest = IoOnLogoffRequest;
+  this.IoOnLoginStateUpdateResponse = IoOnLoginStateUpdateResponse;
 }
 
 function IoOnLoginRequest(socket, userData) {
@@ -57,10 +59,33 @@ function SQLSelectCallback(err, rows, socket, username) {
   }
 }
 
+
 function UpdateClientLoginState(socket, cookie) {
   // Kerro asiakkaalle tämän käyttäjänimi, joka voi olla validi 
-  // (= sisäänkirjautunut asiakas) tai null (= anonyymi asiakas)
-  socket.emit("IoOnLoginStateUpdate", authentication.clientData[cookie].loginName);
+  // (= sisäänkirjautunut asiakas) tai null (= anonyymi asiakas).
+
+  // Testauksessa ilmeni, ettei viesti jostain syystä saavu aina
+  // asiakkaalle asti, joten toistetaan viestiä tarvittaessa 
+  // ajastimella, kunnes asiakas kuittaa viestin vastaanotetuksi.
+  loginStateInterval = setInterval(
+    LoginStateUpdateRequest, 
+    missedLoginStatePeriod, 
+    socket, 
+    cookie, 
+    true);
+  // Lähetä ensimmäinen viesti heti.
+  LoginStateUpdateRequest(socket, cookie, false);
 }
 
+function LoginStateUpdateRequest(socket, cookie, isResentMsg) {
+  if (isResentMsg)
+    console.log("Kirjautumispalkin päivityspyyntö kadonnut. Lähetetään uudelleen...");
+  socket.emit("IoOnLoginStateUpdateRequest", authentication.clientData[cookie].loginName);
+}
+
+function IoOnLoginStateUpdateResponse() {
+  // Asiakkaan kuittaus vastaanotetusta viestistä saapunut
+  // -> poistetaan uudelleenlähetysajastin käytöstä.
+  clearInterval(loginStateInterval);
+}
 module.exports = Login;

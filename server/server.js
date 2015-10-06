@@ -75,6 +75,7 @@ function OnConnect(socket) {
   socket.on("IoOnCookieResponse", function(cookieData) { 
     cookieManager.IoOnCookieResponse(socket, cookieData); });
   socket.on("IoOnLoginRequest", function(userData) { login.IoOnLoginRequest(socket, userData); });
+  socket.on("IoOnLoginStateUpdateResponse", login.IoOnLoginStateUpdateResponse);
   socket.on("IoOnLogoffRequest", function(username) { login.IoOnLogoffRequest(socket, username); });
   socket.on("IoOnRegister", function(userData) { register.IoOnRegister(socket, userData); });
   socket.on("IoOnChatMessage", function(message) { chat.IoOnChatMessage(message); });

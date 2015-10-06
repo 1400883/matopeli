@@ -20,8 +20,8 @@ function Login() {
   });
 
   // Käyttäjän autentikointipäivitys palvelimelta asiakkaalle
-  socket.on("IoOnLoginStateUpdate", function(loggedUsername) {
-    _this.IoOnLoginStateUpdate(loggedUsername);
+  socket.on("IoOnLoginStateUpdateRequest", function(loggedUsername) {
+    _this.IoOnLoginStateUpdateRequest(loggedUsername);
   });
 
   // Sisään- ja uloskirjauspyyntöjen vastaukset palvelimelta
@@ -57,7 +57,8 @@ Login.prototype.IoOnLogoffResponse = function() {
 
 // Tätä metodia palvelin kutsuu muulloin kuin sisään- tai uloskirjauksen
 // yhteydessä tapahtuvassa autentikointitarkastuksessa.
-Login.prototype.IoOnLoginStateUpdate = function(loggedUsername) {
+Login.prototype.IoOnLoginStateUpdateRequest = function(loggedUsername) {
+  socket.emit("IoOnLoginStateUpdateResponse");
   this.username = loggedUsername != null ? loggedUsername : null;
   this.UpdateLoginBar();
 };

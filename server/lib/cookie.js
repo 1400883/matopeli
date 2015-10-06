@@ -75,7 +75,7 @@ function GetClientCookie(req) {
   // Hae asiakkaan selaimen HTTP-pyynnön headerissa
   // välittämistä kekseistä sisäänkirjauskeksin arvoa
   var cookies = req.headers.cookie;
-  return cookies.match(cookieRegex) != null
+  return cookies && cookies.match(cookieRegex) != null
     ? cookies.replace(cookieRegex, "$1") // Löytyi
     : null; // Ei löytynyt
 };
