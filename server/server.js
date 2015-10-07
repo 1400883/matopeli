@@ -15,9 +15,10 @@ var mysql = require("mysql");
 
 // Luo yhteys MySQL-palvelimeen.
 var connection = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "test1234",
+  host: process.env.OPENSHIFT_MYSQL_DB_HOST || "localhost",
+  port: process.env.OPENSHIFT_MYSQL_DB_PORT || 3306,
+  user: process.env.OPENSHIFT_MYSQL_USERNAME || "root",
+  password: process.env.OPENSHIFT_MYSQL_PASSWORD || "test1234",
   database: "matopeli",
 });
 
@@ -27,7 +28,7 @@ var cookieManager = new (require("./lib/cookie"))(authentication, login);
 var register = new (require("./lib/register"))(connection);
 var chat = new (require("./lib/chat"))(connection, io);
 
-var portNumber = 3000;
+var portNumber = process.env.OPENSHIFT_NODEJS_PORT || 3000;
 
 ///////////////////////////////////////////////////////////
 // EXPRESS-MODUULIN REITITYSTEN ASETUS
