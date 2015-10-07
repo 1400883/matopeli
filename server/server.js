@@ -17,8 +17,8 @@ var mysql = require("mysql");
 var connection = mysql.createConnection({
   host: process.env.OPENSHIFT_MYSQL_DB_HOST || "localhost",
   port: process.env.OPENSHIFT_MYSQL_DB_PORT || 3306,
-  user: process.env.OPENSHIFT_MYSQL_USERNAME || "root",
-  password: process.env.OPENSHIFT_MYSQL_PASSWORD || "test1234",
+  user: process.env.OPENSHIFT_MYSQL_DB_USERNAME || "root",
+  password: process.env.OPENSHIFT_MYSQL_DB_PASSWORD || "test1234",
   database: "matopeli",
 });
 
