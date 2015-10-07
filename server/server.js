@@ -29,7 +29,7 @@ var register = new (require("./lib/register"))(connection);
 var chat = new (require("./lib/chat"))(connection, io);
 
 var portNumber = process.env.OPENSHIFT_NODEJS_PORT || 3000;
-
+var ip = process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1";
 ///////////////////////////////////////////////////////////
 // EXPRESS-MODUULIN REITITYSTEN ASETUS
 ///////////////////////////////////////////////////////////
@@ -97,7 +97,7 @@ function OnDisconnect() {
 // HTTP-palvelimen käynnistys. Palvelimen listen()-metodi pitää 
 // palvelin-javascript-tiedoston suorituksen käynnissä ja 
 // palvelimen asiakaspyyntöjen vastaanottotilassa aina ja iankaiken.
-http.listen(portNumber, function() {
+http.listen(portNumber, ip, function() {
   console.log("Odotetaan asiakkaita portissa", portNumber + "...");
 });
 
